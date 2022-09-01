@@ -10,14 +10,20 @@ import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const [foodsState, setFoodsState] = useState(foods);
+  const [showForm, steShowForm] = useState(false);
 
   return (
     <div className="App">
-      <AddFoodForm setFoodsState={setFoodsState} foodsState={foodsState} />
+      {showForm && (
+        <AddFoodForm setFoodsState={setFoodsState} foodsState={foodsState} />
+      )}
 
-      <Button> Hide Form / Add New Food </Button>
+      <Button onClick={() => steShowForm(!showForm)}>
+        {' '}
+        {showForm ? 'Hide Form' : 'Add New Food'}{' '}
+      </Button>
 
-      {/* <Search /> */}
+      <Search setFoodsState={setFoodsState} foodsState={foodsState} />
 
       <Divider>Food List</Divider>
       {foodsState.map((food) => {
@@ -26,7 +32,11 @@ function App() {
             key={uuidv4()}
             style={{ width: '100%', justifyContent: 'center' }}
           >
-            <FoodBox food={food} />
+            <FoodBox
+              food={food}
+              setFoodsState={setFoodsState}
+              foodsState={foodsState}
+            />
           </Row>
         );
       })}
